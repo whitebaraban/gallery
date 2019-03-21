@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Gallery</title>
+	<link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+	<div class="wrap">
+		<div class="img">
+			
+		</div>
+		<div class="albumWrapper">
+			<div class="album">
+			
+			</div>
+			<input type="button" value="&larr;" class="albumArrow left" id="scrollLeft" onclick="galleryApp()">
+			<input type="button" value="&rarr;" class="albumArrow right" id="scrollRight" onclick="galleryApp()">
+		</div>
+	</div>
+	
+	<template class="galleryItem">
+		<div class="imgThumb"></div>
+	</template>
+	<script>
+		var doc = document;
+		var album = doc.querySelector('.album');
+		var cells = 7;
+		var galleryItem = doc.querySelector('.galleryItem').content;
+		var mainImage = doc.querySelector('.img');
+		var current_image = '';
+
+		var renderItems = function () {
+			let newItem;
+			let roulette = doc.createDocumentFragment ();
+
+			var img = new Image();
+			img.src = 'img/background-19.jpg';
+			img.onerror = function () {
+				console.log('не существует');
+			}
+
+			for (let i = 0; i < cells; i++) {
+				newItem = galleryItem.cloneNode(true);
+				//newItem.querySelector('.imgThumb').classList.add('gThumb');
+				
+				newItem.querySelector('.imgThumb').style.backgroundImage = "url('img/background-" + (i + 1) + ".JPG')";
+				roulette.appendChild(newItem);
+			} 
+
+			album.appendChild (roulette);
+		};
+
+		renderItems ();
+
+		var galleryApp = function (evt) {
+			console.log(evt);
+			if (evt.target.parentElement.className == 'albumWrapper' || evt.target.classList.contains('imgThumb') == true) {
+				mainImage.style.backgroundImage = evt.target.style.backgroundImage;
+			}
+		};
+
+		window.addEventListener ('click', galleryApp);
+	</script>
+</body>
+</html>
